@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "ofxJSON.h"
+#include "ofxExif.h"
 
 class ofApp : public ofBaseApp{
     
@@ -25,8 +26,10 @@ public:
 				
 
     vector <float> volHistory;
-    vector <int> taken;
     
+    
+    vector <float> taken;
+    map <std::string, std::string> p;
     
     
     ofxJSONElement rates;
@@ -35,4 +38,6 @@ public:
     ofImage image;
     
     ofDirectory dir;
+    
+    EXIFInfo exif;
 };

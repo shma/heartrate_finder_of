@@ -3,11 +3,12 @@
 int resultNum;
 bool stopFlag;
 
+string photoTime = "";
 
 //--------------------------------------------------------------
 void ofApp::setup(){
     
-    string rateFile = "2016_0623_rate.json";
+    string rateFile = "2016_0628_rate.json";
     string placeFile = "2016_0623_place.json";
     
     bool rateSuccessful = rates.open(rateFile);
@@ -30,16 +31,18 @@ void ofApp::setup(){
     ofBackground(0, 0, 0);
     
     volHistory.assign(ofGetWidth(), 0.0);
-    taken.push_back(0);
+    taken.assign(ofGetWidth(), 0.0);
     
-    int photoCount = dir.listDir("img");
+    int photoCount = dir.listDir("img/0628");
     
     for (int i=0; i<photoCount; i++) {
-        cout << dir.getPath(i) << endl;
-        places[i][4] = dir.getPath(i);
+        exif = getEXIF(dir.getPath(i));
+        
+        string aa = (exif.DateTimeOriginal);
+        aa.erase(--aa.end());
+        cout << aa << endl;
+        p[aa] = dir.getPath(i);
     }
-
-    image.load("img/IMG_3686.jpg");
 }
 
 
@@ -53,13 +56,13 @@ void ofApp::update(){
         if (rates.size() == resultNum) {
             resultNum = 0;
         }
-    
-        for (int j = 0; j < places.size(); j++) {
-            if (rates[resultNum][0] == places[j][0]) {
-                image.clear();
-                image.load(places[j][4].asString());
-
-            }
+        
+        // 写真を発見したらロードして表示
+        auto itr = p.find(rates[resultNum][0].asString());
+        if( itr != p.end() ) {
+            //設定されている場合の処理
+            image.clear();
+            image.load(p[rates[resultNum][0].asString()]);
         }
     }
     
@@ -83,25 +86,26 @@ void ofApp::draw(){
     ofTranslate(0, 0, 0);
     
     ofSetColor(225);
-    ofDrawBitmapString("Heart Rate Monitor", 20, 18);
-    ofDrawBitmapString(rates[resultNum][0].asString() + " : " + rates[resultNum][1].asString(), 20, 36);
+    ofDrawBitmapString("Heart Rate Monitor", 20, 28);
+    ofDrawBitmapString(rates[resultNum][0].asString() + " : " + rates[resultNum][1].asString(), 20, 56);
     
-    ofDrawRectangle(0, 0, ofGetWidth(), 400);
+    ofDrawRectangle(30, 10, ofGetWidth()-30, 400);
     
     //ofSetColor(255, 255, 214);
     ofFill();
 //    ofDrawCircle(200, 200, scaledVol * 190.0f);
     
+    //ofDrawLine(ofGetWidth() / 2, 10, ofGetWidth() / 2, 400);
     
     bool photoed = false;
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
-        if( i == 0 ) ofVertex(i, 400);
+        if( i == 0 ) ofVertex(i, 410);
         
             ofSetColor(255, 255, 255);
 //        ofDrawLine(i, 400, i, 400 - volHistory[i] * 8 + 450);
-        ofVertex(i, 400 - volHistory[i] * 8 + 450);
-        if( i == volHistory.size() -1 ) ofVertex(i, 400);
+        ofVertex(i, 410 - volHistory[i] * 8 + 550);
+        if( i == volHistory.size() -1 ) ofVertex(i , 410);
     }
 
     ofEndShape(false);
@@ -109,10 +113,8 @@ void ofApp::draw(){
     ofPopMatrix();
     ofPopStyle();
     
-
     
-    
-    image.draw(150, 450,image.getWidth()/3,image.getHeight()/3);
+    image.draw(150, ofGetHeight() - image.getHeight()/3 - 100,image.getWidth()/3,image.getHeight()/3);
     ofDrawBitmapString("Photo", 550, 460);
 }
 
