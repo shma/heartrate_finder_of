@@ -25,6 +25,7 @@ public:
 				
 
     vector <float> volHistory;
+    vector <int> taken;
     
     
     
