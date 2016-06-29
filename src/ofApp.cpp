@@ -43,6 +43,28 @@ void ofApp::setup(){
         cout << aa << endl;
         p[aa] = dir.getPath(i);
     }
+    
+    // colorの初期値、最小値、最大値を設定
+    ofColor initColor = ofColor(0, 127, 255, 255);
+    ofColor minColor = ofColor(0,0,0,0);
+    ofColor maxColor = ofColor(255,255,255,255);
+    
+    // positionの初期値、最小値、最大値を設定
+    ofVec2f initPos = ofVec2f(ofGetWidth()/2, ofGetHeight()/2);
+    ofVec2f minPos = ofVec2f(0, 0);
+    ofVec2f maxPos = ofVec2f(ofGetWidth(), ofGetHeight());
+    
+
+    gui.setup();
+    gui.setPosition(550, 550);
+    gui.setSize(600, gui.getHeight());
+    gui.setDefaultWidth(600);
+    gui.add(rate.setup("rate", 0, 0, 120));
+    gui.add(acceleration.setup("acceleration", 0, 0, 120));
+    gui.add(second.setup("second", 0, 0, 120));
+    //gui.add(position.setup("position", initPos, minPos, maxPos));
+    
+
 }
 
 
@@ -61,8 +83,11 @@ void ofApp::update(){
         auto itr = p.find(rates[resultNum][0].asString());
         if( itr != p.end() ) {
             //設定されている場合の処理
-            image.clear();
-            image.load(p[rates[resultNum][0].asString()]);
+            if (rates[resultNum][1].asInt() > rate) {
+                image.clear();
+                image.load(p[rates[resultNum][0].asString()]);
+                photoTime = rates[resultNum][0].asString();
+            }
         }
     }
     
@@ -86,10 +111,11 @@ void ofApp::draw(){
     ofTranslate(0, 0, 0);
     
     ofSetColor(225);
+
     ofDrawBitmapString("Heart Rate Monitor", 20, 28);
     ofDrawBitmapString(rates[resultNum][0].asString() + " : " + rates[resultNum][1].asString(), 20, 56);
     
-    ofDrawRectangle(30, 10, ofGetWidth()-30, 400);
+//    ofDrawRectangle(30, 10, ofGetWidth()-30, 400);
     
     //ofSetColor(255, 255, 214);
     ofFill();
@@ -109,13 +135,17 @@ void ofApp::draw(){
     }
 
     ofEndShape(false);
-    
     ofPopMatrix();
     ofPopStyle();
     
     
     image.draw(150, ofGetHeight() - image.getHeight()/3 - 100,image.getWidth()/3,image.getHeight()/3);
     ofDrawBitmapString("Photo", 550, 460);
+    ofDrawBitmapString("Time : " + photoTime, 550, 480);
+    ofDrawBitmapString("Whether : cloudy", 550, 500);
+    
+    // GUIを表示
+    gui.draw();
 }
 
 

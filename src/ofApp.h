@@ -3,6 +3,7 @@
 #include "ofMain.h"
 #include "ofxJSON.h"
 #include "ofxExif.h"
+#include "ofxGui.h"
 
 class ofApp : public ofBaseApp{
     
@@ -40,4 +41,16 @@ public:
     ofDirectory dir;
     
     EXIFInfo exif;
+    
+    // GUIのパラメーター
+    ofxPanel gui;
+    
+    // 
+    ofxIntSlider rate;
+    ofxIntSlider acceleration;
+    ofxIntSlider second;
+    
+    
+//    ofxFloatSlider rate;
+    ofxVec2Slider position;
 };
