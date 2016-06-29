@@ -53,13 +53,13 @@ void ofApp::setup(){
     graphHeight = 500;
 
     gui.setup();
-    gui.setPosition(550, graphHeight + 230);
+    gui.setPosition(550, graphHeight + 250);
     gui.setSize(600, gui.getHeight());
     gui.setDefaultWidth(600);
     gui.add(rate.setup("rate", 0, 0, 120));
-    gui.add(acceleration.setup("acceleration", 0, -10, 10));
+    gui.add(acceleration.setup("acceleration", -10, -10, 10));
     gui.add(second.setup("second", 1, 1, 60));
-    //gui.add(position.setup("position", initPos, minPos, maxPos));
+
     accelerationNum = 0;
 
 }
@@ -119,7 +119,7 @@ void ofApp::draw(){
     ofFill();
 //    ofDrawCircle(200, 200, scaledVol * 190.0f);
     
-    ofDrawLine(ofGetWidth() / 2, 10, ofGetWidth() / 2, graphHeight);
+    //ofDrawLine(ofGetWidth() / 2, 10, ofGetWidth() / 2, graphHeight);
     
     bool photoed = false;
     ofBeginShape();
@@ -141,12 +141,15 @@ void ofApp::draw(){
     ofDrawBitmapString("Photo", 550, graphHeight + 110);
     ofDrawBitmapString("Time : " + photoTime, 550, graphHeight + 130);
     ofDrawBitmapString("Whether : cloudy", 550, graphHeight + 150);
-    ofDrawBitmapString("Acceleration : " + ofToString(accelerationNum), 550, graphHeight + 170);
+    ofDrawBitmapString("Place : Ogaki", 550, graphHeight + 170);
+    ofDrawBitmapString("Acceleration : " + ofToString(accelerationNum), 550, graphHeight + 190);
     
-    ofDrawBitmapString("Change Parameter", 550, graphHeight + 200);
+    ofDrawBitmapString("Change Parameter", 550, graphHeight + 220);
     
     // GUIを表示
     gui.draw();
+    
+    ofDrawBitmapString("History", 1200, graphHeight + 110);
 }
 
 
