@@ -89,7 +89,7 @@ void ofApp::update(){
                 image.load(p[rates[resultNum][0].asString()]);
                 photoTime = rates[resultNum][0].asString();
                 
-                if (historyImage.size() == 5) {
+                if (historyImage.size() == 6) {
                     historyImage.erase(historyImage.begin());
                 }
                 historyImage.push_back(image);
