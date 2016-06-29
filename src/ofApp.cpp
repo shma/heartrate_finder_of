@@ -1,11 +1,5 @@
 #include "ofApp.h"
 
-int resultNum;
-bool stopFlag;
-
-int graphHeight;
-
-string photoTime = "";
 
 //--------------------------------------------------------------
 void ofApp::setup(){
@@ -59,14 +53,14 @@ void ofApp::setup(){
     graphHeight = 500;
 
     gui.setup();
-    gui.setPosition(550, graphHeight + 200);
+    gui.setPosition(550, graphHeight + 230);
     gui.setSize(600, gui.getHeight());
     gui.setDefaultWidth(600);
     gui.add(rate.setup("rate", 0, 0, 120));
-    gui.add(acceleration.setup("acceleration", 0, 0, 120));
-    gui.add(second.setup("second", 0, 0, 120));
+    gui.add(acceleration.setup("acceleration", 0, -10, 10));
+    gui.add(second.setup("second", 1, 1, 60));
     //gui.add(position.setup("position", initPos, minPos, maxPos));
-    
+    accelerationNum = 0;
 
 }
 
@@ -86,18 +80,19 @@ void ofApp::update(){
         auto itr = p.find(rates[resultNum][0].asString());
         if( itr != p.end() ) {
             //設定されている場合の処理
-            if (rates[resultNum][1].asInt() > rate) {
+            if (rates[resultNum][1].asInt() > rate && accelerationNum > acceleration) {
                 image.clear();
                 image.load(p[rates[resultNum][0].asString()]);
                 photoTime = rates[resultNum][0].asString();
             }
         }
+        
+        if (resultNum > second) {
+            accelerationNum = rates[resultNum][1].asInt() - rates[resultNum - second][1].asInt();
+        }
+        
     }
     
-    //lets record the volume into an array
-//    volHistory.push_back( scaledVol );
-    
-    //if we are bigger the the size we want to record - lets drop the oldest value
     if( volHistory.size() >= ofGetWidth() ){
         volHistory.erase(volHistory.begin(), volHistory.begin()+1);
     }
@@ -146,8 +141,9 @@ void ofApp::draw(){
     ofDrawBitmapString("Photo", 550, graphHeight + 110);
     ofDrawBitmapString("Time : " + photoTime, 550, graphHeight + 130);
     ofDrawBitmapString("Whether : cloudy", 550, graphHeight + 150);
+    ofDrawBitmapString("Acceleration : " + ofToString(accelerationNum), 550, graphHeight + 170);
     
-    ofDrawBitmapString("Change Parameter", 550, graphHeight + 180);
+    ofDrawBitmapString("Change Parameter", 550, graphHeight + 200);
     
     // GUIを表示
     gui.draw();

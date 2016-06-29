@@ -50,8 +50,13 @@ public:
     ofxIntSlider acceleration;
     ofxIntSlider second;
     ofxToggle rateToggle;
+        
+    int resultNum;
+    bool stopFlag;
     
+    int graphHeight;
+    int accelerationNum;
     
-//    ofxFloatSlider rate;
-    ofxVec2Slider position;
+    string photoTime = "";
+
 };
