@@ -158,11 +158,10 @@ void ofApp::draw(){
     // GUIを表示
     gui.draw();
     
-    ofDrawBitmapString("History", 1200, graphHeight + 110);
+    ofDrawBitmapString("History", 1300, graphHeight + 110);
     if (historyImage.size() > 0) {
         for(int i; i < historyImage.size(); i++) {
-                historyImage[i].draw(1200 + (i * 200), graphHeight + 130 ,image.getWidth()/7,image.getHeight()/7);
-            
+            historyImage[i].draw(1300 + (i * 200), graphHeight + 130 ,image.getWidth()/8,image.getHeight()/8);
         }
     }
     
