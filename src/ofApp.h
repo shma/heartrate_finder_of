@@ -59,4 +59,8 @@ public:
     
     string photoTime = "";
 
+    vector<ofImage> historyImage;
+    
+    
+    
 };

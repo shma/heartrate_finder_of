@@ -61,12 +61,16 @@ void ofApp::setup(){
     gui.add(second.setup("second", 1, 1, 60));
 
     accelerationNum = 0;
+    
+    
 
 }
 
 
 //--------------------------------------------------------------
 void ofApp::update(){
+    
+    
     
     if (!stopFlag) {
         volHistory.push_back(rates[resultNum][1].asInt());
@@ -84,6 +88,11 @@ void ofApp::update(){
                 image.clear();
                 image.load(p[rates[resultNum][0].asString()]);
                 photoTime = rates[resultNum][0].asString();
+                
+                if (historyImage.size() == 5) {
+                    historyImage.erase(historyImage.begin());
+                }
+                historyImage.push_back(image);
             }
         }
         
@@ -150,6 +159,15 @@ void ofApp::draw(){
     gui.draw();
     
     ofDrawBitmapString("History", 1200, graphHeight + 110);
+    if (historyImage.size() > 0) {
+        for(int i; i < historyImage.size(); i++) {
+                historyImage[i].draw(1200 + (i * 200), graphHeight + 130 ,image.getWidth()/7,image.getHeight()/7);
+            
+        }
+    }
+    
+//    ofDrawBitmapString("Rate Average", 1200, graphHeight + 110 + image.getHeight()/7 + 50);
+//    ofDrawRectangle(1200, graphHeight + 110 + image.getHeight()/7 + 50, ofGetWidth()-30, 400);
 }
 
 
