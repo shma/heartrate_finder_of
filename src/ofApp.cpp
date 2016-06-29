@@ -3,6 +3,8 @@
 int resultNum;
 bool stopFlag;
 
+int graphHeight;
+
 string photoTime = "";
 
 //--------------------------------------------------------------
@@ -53,10 +55,11 @@ void ofApp::setup(){
     ofVec2f initPos = ofVec2f(ofGetWidth()/2, ofGetHeight()/2);
     ofVec2f minPos = ofVec2f(0, 0);
     ofVec2f maxPos = ofVec2f(ofGetWidth(), ofGetHeight());
-    
+
+    graphHeight = 500;
 
     gui.setup();
-    gui.setPosition(550, 550);
+    gui.setPosition(550, graphHeight + 200);
     gui.setSize(600, gui.getHeight());
     gui.setDefaultWidth(600);
     gui.add(rate.setup("rate", 0, 0, 120));
@@ -121,17 +124,17 @@ void ofApp::draw(){
     ofFill();
 //    ofDrawCircle(200, 200, scaledVol * 190.0f);
     
-    //ofDrawLine(ofGetWidth() / 2, 10, ofGetWidth() / 2, 400);
+    ofDrawLine(ofGetWidth() / 2, 10, ofGetWidth() / 2, graphHeight);
     
     bool photoed = false;
     ofBeginShape();
     for (unsigned int i = 0; i < volHistory.size(); i++){
-        if( i == 0 ) ofVertex(i, 410);
+        if( i == 0 ) ofVertex(i, graphHeight);
         
             ofSetColor(255, 255, 255);
 //        ofDrawLine(i, 400, i, 400 - volHistory[i] * 8 + 450);
-        ofVertex(i, 410 - volHistory[i] * 8 + 550);
-        if( i == volHistory.size() -1 ) ofVertex(i , 410);
+        ofVertex(i, graphHeight - volHistory[i] * 8 + 550);
+        if( i == volHistory.size() -1 ) ofVertex(i , graphHeight);
     }
 
     ofEndShape(false);
@@ -139,10 +142,12 @@ void ofApp::draw(){
     ofPopStyle();
     
     
-    image.draw(150, ofGetHeight() - image.getHeight()/3 - 100,image.getWidth()/3,image.getHeight()/3);
-    ofDrawBitmapString("Photo", 550, 460);
-    ofDrawBitmapString("Time : " + photoTime, 550, 480);
-    ofDrawBitmapString("Whether : cloudy", 550, 500);
+    image.draw(150, graphHeight + 100,image.getWidth()/3,image.getHeight()/3);
+    ofDrawBitmapString("Photo", 550, graphHeight + 110);
+    ofDrawBitmapString("Time : " + photoTime, 550, graphHeight + 130);
+    ofDrawBitmapString("Whether : cloudy", 550, graphHeight + 150);
+    
+    ofDrawBitmapString("Change Parameter", 550, graphHeight + 180);
     
     // GUIを表示
     gui.draw();

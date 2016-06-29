@@ -49,6 +49,7 @@ public:
     ofxIntSlider rate;
     ofxIntSlider acceleration;
     ofxIntSlider second;
+    ofxToggle rateToggle;
     
     
 //    ofxFloatSlider rate;
