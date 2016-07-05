@@ -165,6 +165,8 @@ void ofApp::draw(){
         }
     }
     
+    
+    
 //    ofDrawBitmapString("Rate Average", 1200, graphHeight + 110 + image.getHeight()/7 + 50);
 //    ofDrawRectangle(1200, graphHeight + 110 + image.getHeight()/7 + 50, ofGetWidth()-30, 400);
 }
